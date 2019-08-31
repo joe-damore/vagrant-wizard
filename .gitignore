@@ -1,3 +1,6 @@
+# Text editor files
+*.sublime-workspace
+
 /.bundle/
 /.yardoc
 /_yardoc/
