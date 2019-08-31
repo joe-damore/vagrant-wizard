@@ -2,7 +2,7 @@ require "tty-prompt"
 
 class VagrantWizard::Select < VagrantWizard::Input
 
-  def prompt
+  def processInput
 
     prompt = TTY::Prompt.new
     choices = Hash.new

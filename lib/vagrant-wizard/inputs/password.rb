@@ -2,7 +2,7 @@ require "tty-prompt"
 
 class VagrantWizard::Password < VagrantWizard::Input
 
-  def prompt
+  def processInput
     prompt = TTY::Prompt.new
 
     @output = prompt.mask(@prompt)

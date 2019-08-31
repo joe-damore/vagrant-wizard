@@ -2,7 +2,7 @@ require "tty-prompt"
 
 class VagrantWizard::Prompt < VagrantWizard::Input
 
-  def prompt
+  def processInput
     prompt = TTY::Prompt.new
 
     @output = prompt.ask(@prompt);

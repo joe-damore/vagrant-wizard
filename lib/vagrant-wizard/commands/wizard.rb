@@ -10,6 +10,10 @@ module VagrantWizard
       def initialize(argv, env)
         @env = env
         @config = @env.vagrantfile.config.wizard
+        @advanced = false
+        if argv.include?("--advanced") || argv.include?('-a')
+          @advanced = true
+        end
       end
 
       def self.synopsis
@@ -27,6 +31,7 @@ module VagrantWizard
 
         loader.data['prompts'].each do |prompt|
           parser = PromptParser.new(prompt)
+          parser.advanced = @advanced
           parser.prompt()
 
           keyParts = parser.key.split('|');
