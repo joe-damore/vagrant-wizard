@@ -15,6 +15,7 @@ module VagrantWizard
       @output_path      = UNSET_VALUE
       @prompt_presets   = UNSET_VALUE
       @presets_dir_path = UNSET_VALUE
+      @propmt_overwrite = UNSET_VALUE
     end
 
     def finalize!
