@@ -1,6 +1,5 @@
 require 'vagrant'
 require 'vagrant-wizard'
-require 'vagrant-wizard/version'
 
 require 'yaml'
 
