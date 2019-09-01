@@ -33,14 +33,60 @@ module VagrantWizard
           defaultData = YAML.load(File.read(@config.defaults_path))
         end
 
+        presets = Hash.new
+        presets['(None)'] = {}
+        preset = nil;
+        if (@config.prompt_presets == true && Dir.exist?(@config.presets_dir_path))
+          presetPrompt = TTY::Prompt.new
+          showPresets = presetPrompt.yes?("Select from a preset configuration?")
+          if (showPresets == true)
+            presetFilesYml = Dir["#{@config.presets_dir_path}/*.preset.yml"]
+            presetFilesYaml = Dir["#{@config.presets_dir_path}/*.preset.yaml"]
+            presetFiles = presetFilesYml + presetFilesYaml
+
+            presetFiles.each do |presetFile|
+              presetData = YAML.load(File.read(presetFile))
+              # Skip preset definitions that do not have a meta section
+              if (presetData == false || !presetData.key?('meta'))
+                next
+              end
+              presets[presetData['meta']['name']] = presetData['config']
+            end
+
+            presetChoice = TTY::Prompt.new
+            preset = presetChoice.select('Select a preset', presets)
+          end
+        end
+
         outputData = Hash.new
 
         loader.data['prompts'].each do |prompt|
-          parser = PromptParser.new(prompt)
-          parser.advanced = @advanced
-          parser.prompt()
+          presetData = nil
+          if (preset != nil)
+            preset.each do |preset|
+              if (!preset.key?('key') || !preset.key?('value'))
+                next
+              end
+              if (preset['key'] == prompt['key'])
+                presetData = preset['value']
+                break
+              end
+            end
+          end
 
-          keyParts = parser.key.split('|');
+          output = nil
+          if (presetData != nil)
+            key = prompt['key']
+            output = presetData
+          else
+            parser = PromptParser.new(prompt)
+            parser.advanced = @advanced
+            parser.prompt()
+            key = parser.key
+            output = parser.output
+          end
+          
+          keyParts = key.split('|');
           keyName = keyParts[-1];
           currentHash = outputData
           keyParts[0..-2].each do |keyPart|
@@ -49,7 +95,7 @@ module VagrantWizard
             end
             currentHash = currentHash[keyPart]
           end
-          currentHash[keyName] = parser.output
+          currentHash[keyName] = output
         end
 
         def merge_recursively(a, b)
