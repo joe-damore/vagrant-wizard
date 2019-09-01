@@ -18,6 +18,9 @@ class VagrantWizard::PromptParser
       require_relative "inputs/#{promptType}"
     rescue LoadError
       puts "Unable to process input type '#{promptType}'"
+      if @prompt.key?('default')
+        @output = @prompt['default']
+      end
       exit
     end
 
