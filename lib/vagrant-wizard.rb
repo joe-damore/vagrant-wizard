@@ -15,11 +15,11 @@ module VagrantWizard
     attr_accessor :prompt_overwrite
     attr_accessor :advanced
 
-    def initialize(config_path, defaults_path = nil, wizard_path = nil)
-      @config_path   = config_path
-      @defaults_path = defaults_path
-      @wizard_path = wizard_path
-      @presets_dir_path = nil
+    def initialize
+      @config_path = './config.yml'
+      @defaults_path = './config.defaults.yml'
+      @wizard_path = './config.wizard.yml'
+      @presets_dir_path = './wizard-presets'
       @prompt_presets = true
       @prompt_overwrite = true
       @advanced = false
