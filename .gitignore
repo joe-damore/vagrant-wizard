@@ -1,11 +1,11 @@
 # Text editor files
 *.sublime-workspace
 
-# Output files and development files
-vagrant-config.yml
-vagrant-wizard.yml
-vagrant-wizard.default.yaml
+# Gem files
+*.gem
+
 vagrantfile
+/wizard-presets/
 
 /.bundle/
 /.yardoc
