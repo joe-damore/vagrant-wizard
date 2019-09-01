@@ -138,8 +138,33 @@ The following configuration options are available:
 |Config              |Description                                                             |Default                  |
 |--------------------|------------------------------------------------------------------------|-------------------------|
 |``wizard_path``     |Path to Vagrant Wizard config file                                      |``./config.wizard.yml``  |
-|``defaults_path``   |Path to default configuration file                                      |``./config.defaults.yml``|
+|``defaults_path``   |Path to configuration defaults file                                     |``./config.defaults.yml``|
 |``config_path``     |Path to output configuration file                                       |``./config.yml``         |
 |``presets_dir_path``|Path to presets directory                                               |``./wizard-presets``     |
 |``prompt_overwrite``|Whether or not to prompt for confirmation before overwriting config file|``true``                 |
 |``prompt_presets``  |Whether or not to prompt for preset selection                           |``true``                 |
+
+You may find yourself in an interesting predicament when trying to run
+``vagrant wizard`` for the first time. The ``wizard`` command requires
+configuration information from your Vagrantfile to function, but your
+Vagrantfile may not function without a configuration file present.
+
+In these cases, you can use Vagrant Wizard's ``API`` object in your Vagrantfile
+to force the wizard to appear if a configuration file does not already exist:
+
+    # Top of vagrantfile
+    settings = nil
+    if Vagrant.has_plugin?('vagrant-wizard')
+        require 'vagrant-wizard'
+        settings = (VagrantWizard::API.new).require_config
+    end
+    # Optionally attempt to load ./config.yml manually here if 'vagrant-wizard' is not installed.
+    # ...
+    if settings == nil
+      puts "No configuration file found at ./config.yml"
+      exit
+    end
+    # Proceed with regular Vagrant configuration
+    Vagrant.require_version ">= 2.1.2"
+    Vagrant.configure("2") do |config|
+    ...
