@@ -2,6 +2,7 @@ require 'vagrant'
 require 'tty-prompt'
 
 require 'vagrant-wizard';
+require 'yaml';
 
 module VagrantWizard
   module Commands
@@ -27,6 +28,11 @@ module VagrantWizard
           return
         end
 
+        defaultData = Hash.new
+        if (File.exist?(@config.defaults_path))
+          defaultData = YAML.load(File.read(@config.defaults_path))
+        end
+
         outputData = Hash.new
 
         loader.data['prompts'].each do |prompt|
@@ -45,6 +51,18 @@ module VagrantWizard
           end
           currentHash[keyName] = parser.output
         end
+
+        def merge_recursively(a, b)
+          a.merge!(b) do |key, a_item, b_item|
+            if a_item.is_a?(Hash)
+              merge_recursively(a_item, b_item)
+            else
+              b_item
+            end
+          end
+        end
+
+        outputData = merge_recursively(defaultData, outputData)
 
         outputYaml = outputData.to_yaml
         canOverwrite = true
