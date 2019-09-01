@@ -27,10 +27,10 @@ module VagrantWizard
       def execute
         promptDisplay = PromptDisplay.new
 
-        promptDisplay.config_path = @config.config_path
+        promptDisplay.wizard_path = @config.wizard_path
         promptDisplay.defaults_path = @config.defaults_path
         promptDisplay.presets_dir_path = @config.presets_dir_path
-        promptDisplay.output_path = @config.output_path
+        promptDisplay.config_path = @config.config_path
         promptDisplay.prompt_presets = @config.prompt_presets
         promptDisplay.prompt_overwrite = @config.prompt_overwrite
         promptDisplay.advanced = @advanced

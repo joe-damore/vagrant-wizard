@@ -38,10 +38,10 @@ module VagrantWizard
       if (confirmation.yes?(confirmationString))
         promptDisplay = PromptDisplay.new
 
-        promptDisplay.config_path = @wizard_path
+        promptDisplay.wizard_path = @wizard_path
         promptDisplay.defaults_path = @defaults_path
         promptDisplay.presets_dir_path = @presets_dir_path
-        promptDisplay.output_path = @config_path
+        promptDisplay.config_path = @config_path
         promptDisplay.prompt_presets = @prompt_presets
         promptDisplay.prompt_overwrite = @prompt_overwrite
         promptDisplay.advanced = @advanced

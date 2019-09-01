@@ -8,8 +8,8 @@ module VagrantWizard
 
   class PromptDisplay
     attr_accessor :defaults_path
+    attr_accessor :wizard_path
     attr_accessor :config_path
-    attr_accessor :output_path
     attr_accessor :prompt_presets
     attr_accessor :presets_dir_path
     attr_accessor :prompt_overwrite
@@ -17,8 +17,8 @@ module VagrantWizard
 
     def initialize
       @defaults_path = nil
+      @wizard_path = nil
       @config_path = nil
-      @output_path = nil
       @prompt_presets = true
       @presets_dir_path = nil
       @prompt_overwrite = true
@@ -28,7 +28,7 @@ module VagrantWizard
     def display
       config = load_config_file
       if config == nil
-        puts "Error: Wizard configuration file does not exist at `#{@config_path}`"
+        puts "Error: Wizard configuration file does not exist at `#{@wizard_path}`"
         return
       end
       preset = nil
@@ -54,8 +54,8 @@ module VagrantWizard
     #
     # If file does not exist, nil is returned.
     def load_config_file
-      if File.exist?(@config_path)
-        return YAML.load_file(@config_path)
+      if File.exist?(@wizard_path)
+        return YAML.load_file(@wizard_path)
       end
       return nil
     end
@@ -201,7 +201,7 @@ module VagrantWizard
     # Output results
     def output_results(results)
       shouldWrite = true
-      if File.exist?(@output_path)
+      if File.exist?(@config_path)
         if @prompt_overwrite == true
           confirmation = TTY::Prompt.new
           confirmationString = 'Overwrite existing configuration file?'
@@ -210,9 +210,9 @@ module VagrantWizard
       end
 
       if shouldWrite == true
-        File.open(@output_path, 'w') do |file|
+        File.open(@config_path, 'w') do |file|
           file.write results.to_yaml
-          puts "Output configuration to `#{@output_path}`"
+          puts "Output configuration to `#{@config_path}`"
           return
         end
       end
