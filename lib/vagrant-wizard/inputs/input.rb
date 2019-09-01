@@ -14,9 +14,12 @@ class VagrantWizard::Input
   def prompt
     if !@silent
       self.processInput
+      return @output
     elsif @data.key?('default')
       @output = @data['default']
+      return @output
     end
+    puts "Warning: input for prompt '#{@data['key']}' has been silenced, but no default value has been provided"
     return @output
   end
 
