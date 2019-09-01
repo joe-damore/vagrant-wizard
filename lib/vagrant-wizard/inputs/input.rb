@@ -17,6 +17,7 @@ class VagrantWizard::Input
     elsif @data.key?('default')
       @output = @data['default']
     end
+    return @output
   end
 
   def processInput
