@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.files        = %x{git ls-files -z}.split("\0")
   spec.require_path = "lib"
 
+  spec.add_runtime_dependency "tty-prompt", "~> 0.19.0"
+
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10"
 end

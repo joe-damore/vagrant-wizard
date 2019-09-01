@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 group :development do
-  gem 'tty-prompt'
 end
 
 group :test do
@@ -9,5 +8,5 @@ group :test do
 end
 
 group :plugins do
-  gemspec
+  gem 'vagrant-wizard', path: '.'
 end
