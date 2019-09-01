@@ -47,8 +47,19 @@ module VagrantWizard
         end
 
         outputYaml = outputData.to_yaml
-        File.open(@config.output_path, "w") do |file|
-          file.write outputYaml
+        canOverwrite = true
+        if File.exist?(@config.output_path)
+          if @config.prompt_overwrite == true
+            confirmation = TTY::Prompt.new
+            canOverwrite = confirmation.yes?("Overwrite your existing configuration?")
+          else
+            canOverwrite = true
+          end
+        end
+        if canOverwrite == true
+          File.open(@config.output_path, "w") do |file|
+            file.write outputYaml
+          end
         end
         0
       end

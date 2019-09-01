@@ -7,6 +7,7 @@ module VagrantWizard
     attr_accessor :output_path
     attr_accessor :prompt_presets
     attr_accessor :presets_dir_path
+    attr_accessor :prompt_overwrite
 
     def initialize
       @config_path      = UNSET_VALUE
@@ -22,6 +23,7 @@ module VagrantWizard
       @output_path      = './vagrant-config.yml'         if @output_path      == UNSET_VALUE
       @prompt_presets   = true                           if @prompt_presets   == UNSET_VALUE
       @presets_dir_path = './wizard-presets'             if @presets_dir_path == UNSET_VALUE
+      @prompt_overwrite = true                           if @prompt_overwrite == UNSET_VALUE
     end
   end
 end
