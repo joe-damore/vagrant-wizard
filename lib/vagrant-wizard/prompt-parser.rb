@@ -15,7 +15,7 @@ class VagrantWizard::PromptParser
     promptQuestion = @prompt['prompt']
 
     begin
-      require_relative "inputs/#{promptType}"
+      require "vagrant-wizard/inputs/#{promptType}"
     rescue LoadError
       puts "Unable to process input type '#{promptType}'"
       if @prompt.key?('default')

@@ -1,3 +1,5 @@
+require_relative "input"
+
 require "tty-prompt"
 
 class VagrantWizard::Password < VagrantWizard::Input
